@@ -9,8 +9,12 @@ from numpy.testing import assert_allclose
 from typing import Dict
 
 # our
-from parallel_slab.solutions import NeoHookeanSolution, GeneralizedMooneyRivlinSolution, SolutionGenerator, \
-    ProblemSolution
+from parallel_slab.solutions import (
+    NeoHookeanSolution,
+    GeneralizedMooneyRivlinSolution,
+    SolutionGenerator,
+    ProblemSolution,
+)
 
 
 # Neo
@@ -21,8 +25,9 @@ from parallel_slab.solutions import NeoHookeanSolution, GeneralizedMooneyRivlinS
 # 0. check with coutte Stokes flow when c_1 = c_3 = 0
 # 1. check with Neo for c_3 = 0
 
+
 class StokesCouetteSolution:
-    """ Generates stokes coutte solution
+    """Generates stokes coutte solution
     see Landau, L. D., & Lifshitz, E. M. (1987). Fluid Mechanics: Vol 6. pp. 88
     """
 
@@ -35,7 +40,12 @@ class StokesCouetteSolution:
 
     @classmethod
     def from_params(cls, params: Dict[str, float]):
-        return cls(params['L_s'] + params['L_f'], params['mu_f'] / params['rho_f'], params['omega'], params['V_wall'])
+        return cls(
+            params["L_s"] + params["L_f"],
+            params["mu_f"] / params["rho_f"],
+            params["omega"],
+            params["V_wall"],
+        )
 
     def get_velocity(self, grid: np.ndarray) -> SolutionGenerator:
         # check
@@ -47,7 +57,11 @@ class StokesCouetteSolution:
         k = (1.0 - 1.0j) * np.sqrt(self.omega / self.nu) / np.sqrt(2)
 
         def __solution(time_v):
-            return self.V_wall * np.imag(np.exp(1j * (self.omega * time_v)) * np.sin(k * grid) / np.sin(k * self.h))
+            return self.V_wall * np.imag(
+                np.exp(1j * (self.omega * time_v))
+                * np.sin(k * grid)
+                / np.sin(k * self.h)
+            )
 
         return __solution
 
@@ -73,6 +87,7 @@ def _internal_test(sol: ProblemSolution):
     assert sol.ready()
 
     from parallel_slab.utils import generate_regular_grid
+
     sg, fg = generate_regular_grid(101, sol.L_s, sol.L_f)
 
     vsg, vfg = sol.get_velocities(sg, fg)
@@ -85,31 +100,33 @@ def _internal_test(sol: ProblemSolution):
 
 
 class TestNeoHookeanSolution:
-    default_params = {'L_s': 0.2,
-                      'n_modes': 64,
-                      'L_f': 0.2,
-                      'rho_f': 1.0,
-                      'mu_f': 0.02,
-                      'rho_s': 1.0,
-                      'mu_s': 0.02,
-                      'c_1': 0.01,
-                      'V_wall': 0.4,
-                      'omega': np.pi}
+    default_params = {
+        "L_s": 0.2,
+        "n_modes": 64,
+        "L_f": 0.2,
+        "rho_f": 1.0,
+        "mu_f": 0.02,
+        "rho_s": 1.0,
+        "mu_s": 0.02,
+        "c_1": 0.01,
+        "V_wall": 0.4,
+        "omega": np.pi,
+    }
 
     @pytest.fixture(scope="function")
     def params(self):
         params = self.default_params.copy()
         for k, _ in params.items():
-            if k != 'n_modes':
+            if k != "n_modes":
                 params[k] = np.random.random()
 
         # Fix it so that time-period is a perfect float
-        params['omega'] = np.random.randint(1, 10) * np.pi
+        params["omega"] = np.random.randint(1, 10) * np.pi
 
         return params
 
     def test_behavior(self, grid, params):
-        params['V_wall'] = 0.0
+        params["V_wall"] = 0.0
 
         # Test behavior of solution characteristics
         sol = NeoHookeanSolution(params=params)
@@ -120,12 +137,12 @@ class TestNeoHookeanSolution:
         assert str(sol) == "NeoHookeanSolution"
 
     def test_against_stokes_coutte_flow(self, grid, params):
-        sg, fg, tg = grid(params['L_s'], params['L_f'])
+        sg, fg, tg = grid(params["L_s"], params["L_f"])
 
         # Make it a fluid
-        params['c_1'] = 0.0
-        params['mu_s'] = params['mu_f']
-        params['rho_s'] = params['rho_f']
+        params["c_1"] = 0.0
+        params["mu_s"] = params["mu_f"]
+        params["rho_s"] = params["rho_f"]
 
         sol = NeoHookeanSolution(params=params)
         vsg, vfg = sol.get_velocities(sg, fg)
@@ -141,32 +158,34 @@ class TestNeoHookeanSolution:
 
 
 class TestGeneralizedMooneyRivlinSolution:
-    default_params = {'L_s': 0.2,
-                      'n_modes': 64,
-                      'L_f': 0.2,
-                      'rho_f': 1.0,
-                      'mu_f': 0.02,
-                      'rho_s': 1.0,
-                      'mu_s': 0.02,
-                      'c_1': 0.01,
-                      'c_3': 0.04,
-                      'V_wall': 0.4,
-                      'omega': np.pi}
+    default_params = {
+        "L_s": 0.2,
+        "n_modes": 64,
+        "L_f": 0.2,
+        "rho_f": 1.0,
+        "mu_f": 0.02,
+        "rho_s": 1.0,
+        "mu_s": 0.02,
+        "c_1": 0.01,
+        "c_3": 0.04,
+        "V_wall": 0.4,
+        "omega": np.pi,
+    }
 
     @pytest.fixture(scope="function")
     def params(self):
         params = self.default_params.copy()
         for k, _ in params.items():
-            if k != 'n_modes':
+            if k != "n_modes":
                 params[k] = np.random.random()
 
         # Fix it so that time-period is a perfect float
-        params['omega'] = np.random.randint(1, 10) * np.pi
+        params["omega"] = np.random.randint(1, 10) * np.pi
 
         return params
 
     def test_behavior(self, grid, params):
-        params['V_wall'] = 0.0
+        params["V_wall"] = 0.0
 
         # Test behavior of solution characterization
         sol = GeneralizedMooneyRivlinSolution(params=params)
@@ -176,14 +195,14 @@ class TestGeneralizedMooneyRivlinSolution:
         assert str(sol) == "GeneralizedMooneyRivlinSolution"
 
     def test_against_stokes_coutte_flow(self, grid, params):
-        sg, fg, tg = grid(params['L_s'], params['L_f'])
+        sg, fg, tg = grid(params["L_s"], params["L_f"])
 
         # Make it a fluid
-        params['c_1'] = 0.0
-        params['c_3'] = 0.0
-        params['mu_s'] = params['mu_f']
-        params['rho_s'] = params['rho_f']
-        params['n_modes'] = 16
+        params["c_1"] = 0.0
+        params["c_3"] = 0.0
+        params["mu_s"] = params["mu_f"]
+        params["rho_s"] = params["rho_f"]
+        params["n_modes"] = 16
 
         sol = GeneralizedMooneyRivlinSolution(params=params)
         # First run till some time
@@ -200,16 +219,16 @@ class TestGeneralizedMooneyRivlinSolution:
             assert_allclose(np.hstack((vsg(t), vfg(t))), ref_v(t), rtol=1e-5, atol=1e-2)
 
     def test_against_neo_hookean_material(self, grid, params):
-        sg, fg, _ = grid(params['L_s'], params['L_f'])
+        sg, fg, _ = grid(params["L_s"], params["L_f"])
 
         # Make it a fluid
-        params['c_3'] = 0.0
-        params['n_modes'] = 16
+        params["c_3"] = 0.0
+        params["n_modes"] = 16
 
         # These two are not strictly needed, but otherwise this
         # thing blows up
-        params['mu_f'] = 0.02
-        params['mu_s'] = 0.002
+        params["mu_f"] = 0.02
+        params["mu_s"] = 0.002
 
         sol = GeneralizedMooneyRivlinSolution(params=params)
         # First run till some time
@@ -228,7 +247,7 @@ class TestGeneralizedMooneyRivlinSolution:
             assert_allclose(vfg(t), ref_vfg(t), rtol=1e-4, atol=1e-2)
 
     def test_data_serialization(self, params):
-        params['n_modes'] = 16
+        params["n_modes"] = 16
 
         # Data
         sol = GeneralizedMooneyRivlinSolution(params=params)
@@ -238,6 +257,7 @@ class TestGeneralizedMooneyRivlinSolution:
         sol.run_till(2.0 * sol.time_period)
 
         import tempfile
+
         with tempfile.TemporaryDirectory() as dirpath:
             sol.save_data(dirpath)
             new_sol.load_data(dirpath)
@@ -257,7 +277,13 @@ class TestGeneralizedMooneyRivlinSolution:
                 assert new_sol_dict.keys() == deepK
 
                 for dk in deepK:
-                    if isinstance(sol_dict[dk], (np.ndarray, np.float64,)):
+                    if isinstance(
+                        sol_dict[dk],
+                        (
+                            np.ndarray,
+                            np.float64,
+                        ),
+                    ):
                         assert_allclose(sol_dict[dk], new_sol_dict[dk])
                     else:
                         assert sol_dict[dk] == new_sol_dict[dk]

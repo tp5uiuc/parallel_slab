@@ -6,7 +6,9 @@ import numpy as np
 from typing import Dict, Any
 
 
-def generate_grid_like_pycfs(n_total_points: int, l_half_solid: float, l_half_fluid: float):
+def generate_grid_like_pycfs(
+    n_total_points: int, l_half_solid: float, l_half_fluid: float
+):
     """
     Generates grid according to conventions of our in-house solver for comparison
 
@@ -27,7 +29,7 @@ def generate_grid_like_pycfs(n_total_points: int, l_half_solid: float, l_half_fl
     assert l_half_fluid < 0.5
 
     # Only look at one half of solution
-    n_effective_points = n_total_points // 2
+    # n_effective_points = n_total_points // 2
 
     # Solid starts at 0.5 + dx / 2 in simulation
     dx = 1.0 / n_total_points
@@ -60,7 +62,9 @@ def generate_grid_like_pycfs(n_total_points: int, l_half_solid: float, l_half_fl
     return y_solid, y_fluid
 
 
-def generate_regular_grid(n_total_points: int, l_half_solid: float, l_half_fluid: float):
+def generate_regular_grid(
+    n_total_points: int, l_half_solid: float, l_half_fluid: float
+):
     """
     Generates regular grid
 
@@ -82,7 +86,9 @@ def generate_regular_grid(n_total_points: int, l_half_solid: float, l_half_fluid
 
     ## Use this for the figure, detailed solution
     y_solid = np.linspace(0.0, l_half_solid, n_solid_points, endpoint=False)
-    y_fluid = np.linspace(l_half_solid, l_half_solid + l_half_fluid, n_fluid_points, endpoint=False)
+    y_fluid = np.linspace(
+        l_half_solid, l_half_solid + l_half_fluid, n_fluid_points, endpoint=False
+    )
 
     # We solve separately for the fluid and solid parts, so shift it
     y_fluid -= l_half_solid
