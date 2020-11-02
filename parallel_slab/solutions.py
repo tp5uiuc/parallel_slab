@@ -5,7 +5,7 @@ __doc__ = """Solution for neo-Hookean solids"""
 import numpy as np
 from scipy.interpolate import interp1d
 import os
-from typing import Dict, TypeVar, Callable, Tuple
+from typing import Dict, TypeVar, Callable, Tuple, List, Any
 from .utils import dict_hash
 
 SolutionGenerator = Callable[[float], np.ndarray]
@@ -393,14 +393,20 @@ class GeneralizedMooneyRivlinSolution(SolutionBase):
                 u_solid.append(v["solid_d"].copy())
                 v_inter.append(v["inter"])
 
-        # (t,) array
-        ndtime = np.array(ndtime)
+        # (t,) array from [0, T). Does not include the point at T
+        # To make sure that values between T-delt and T can be properly interpolated we need to manually
+        # pad the last position ty append
+        def append_zeroth_position(l : List[Any]):
+            return np.array(l + [l[0]])
+
+        # manually append the last non-dimensional time
+        ndtime = np.array(ndtime + [1.0])
 
         # (k, t) arrays
-        v_fluid = np.array(v_fluid).T
-        v_solid = np.array(v_solid).T
-        u_solid = np.array(u_solid).T
-        v_inter = np.array(v_inter).T
+        v_fluid = append_zeroth_position(v_fluid).T
+        v_solid = append_zeroth_position(v_solid).T
+        u_solid = append_zeroth_position(u_solid).T
+        v_inter = append_zeroth_position(v_inter).T
 
         def time2nd(time_v):
             temp = time_v / self.time_period
