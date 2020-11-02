@@ -1,8 +1,6 @@
 black:
 	@black --version
-
-	@black elastica tests examples
-
+	@black parallel_slab tests examples
 
 black_check:
 	@black --version
@@ -19,8 +17,7 @@ isort_check:
 
 flake8:
 	@flake8 --version
-
-	@flake8 elastica tests examples
+	@flake8 parallel_slab tests examples
 
 
 clean_notebooks:
@@ -36,5 +33,5 @@ pylint:
 	@find . -maxdepth 3 -name '*.py'\
 		| while read -r src; do pylint -rn "$$src"; done
 
-all:black pylint flake8
+all:black flake8
 ci:black_check flake8
