@@ -1,0 +1,11 @@
+L_s: 0.2
+n_modes: 64
+L_f: 0.2
+rho_f: 1.0  # Dont change
+mu_f: 0.02
+rho_s: 1.0  # DOnt change
+mu_s: 0.002
+c_1: 0.01
+c_3: 0.0
+V_wall: 0.4
+omega: 3.141592653589793
