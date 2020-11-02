@@ -396,8 +396,8 @@ class GeneralizedMooneyRivlinSolution(SolutionBase):
         # (t,) array from [0, T). Does not include the point at T
         # To make sure that values between T-delt and T can be properly interpolated we need to manually
         # pad the last position ty append
-        def append_zeroth_position(l : List[Any]):
-            return np.array(l + [l[0]])
+        def append_zeroth_position(a_list: List[Any]):
+            return np.array(a_list + [a_list[0]])
 
         # manually append the last non-dimensional time
         ndtime = np.array(ndtime + [1.0])
