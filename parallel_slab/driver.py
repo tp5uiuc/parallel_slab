@@ -8,19 +8,18 @@ from .solutions import (
     NeoHookeanSolution,
     GeneralizedMooneyRivlinSolution,
 )
-from functools import partial
 
 import numpy as np
 from typing import List, Dict, Type, Callable, Tuple, Union
 import os
+from matplotlib import pyplot as plt
+from functools import partial
 
 Grids = Tuple[np.ndarray, np.ndarray]
 FilePath = Union[str, bytes, os.PathLike]
 
 
 def _get_stylized_plot():
-    from matplotlib import pyplot as plt
-
     fig = plt.figure(figsize=(7, 6), dpi=300, tight_layout=True)
     ax = fig.add_subplot()
     ax.set_aspect("auto")
@@ -105,8 +104,7 @@ def plot_solution(
     grid_generator: Callable[[float, float], Grids] = partial(
         generate_regular_grid, 512
     ),
-) -> ProblemSolution:
-    from matplotlib import pyplot as plt
+) -> Tuple[ProblemSolution, plt.Figure]:
     from matplotlib import cm
     from mpl_toolkits.axes_grid1 import make_axes_locatable
 
@@ -118,10 +116,10 @@ def plot_solution(
     v_solid_gen, v_fluid_gen = solution.get_velocities(solid_grid, fluid_grid)
 
     fig, ax, solid_line, fluid_line = _get_stylized_plot()
-    plot_times.sort()
+    plot_times = sorted(list(plot_times))
 
-    v_solid = v_solid_gen(plot_times[0])
-    v_fluid = v_fluid_gen(plot_times[0])
+    v_solid = v_solid_gen(plot_times[0] if plot_times else 0.0)
+    v_fluid = v_fluid_gen(plot_times[0] if plot_times else 0.0)
 
     max_velocity = solution.V_wall
     max_length = solution.L_s + solution.L_f
@@ -156,7 +154,7 @@ def plot_solution(
         anim = animation.FuncAnimation(
             fig,
             animate,
-            frames=plot_times,
+            frames=plot_times if plot_times else [0],
             blit=True,
             repeat=True,
         )
@@ -212,7 +210,7 @@ def plot_solution(
         else:
             plt.show()
 
-    return solution
+    return solution, fig
 
 
 def plot_from_yaml(
