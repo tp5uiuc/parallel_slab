@@ -45,14 +45,14 @@ class SolutionBase:
             self.V_wall * SolutionBase._internal_activation(omega, time_v)
         )
 
-        self.data_loaded = False
+        self._data_loaded = False
 
     @staticmethod
     def _internal_activation(omega, time_v):
         return np.exp(1j * omega * time_v)
 
     def ready(self):
-        return self.data_loaded
+        return self._data_loaded
 
     def _solid_velocity(self, solid_grid) -> SolutionGenerator:
         """
