@@ -154,7 +154,33 @@ class TestNeoHookeanSolution:
         # times = np.random.random(20) * sol.time_period
         times = np.linspace(0.0, 1.0, 21) * sol.time_period
         for t in times:
-            assert_allclose(np.hstack((vsg(t), vfg(t))), ref_v(t), rtol=1e-5, atol=1e-2)
+            try:
+                assert_allclose(
+                    np.hstack((vsg(t), vfg(t))), ref_v(t), rtol=1e-5, atol=1e-2
+                )
+            except AssertionError:
+                print("Time of mismatch :", t)
+                print(params)
+                raise
+
+    def test_warning_for_extraneous_c3_parameter(self, params):
+        # Set random parameter to c_3
+        params["c_3"] = 0.4
+
+        with pytest.warns(UserWarning):
+            _ = NeoHookeanSolution(params=params)
+
+    def test_data_serialization(self, params):
+        # No behavior here, just check the state is equal or not
+        sol = NeoHookeanSolution(params)
+        sol_copy = sol.__dict__.copy()
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as dirpath:
+            sol.save_data(dirpath)
+            sol.load_data(dirpath)
+
+        assert sol.__dict__ == sol_copy
 
 
 class TestGeneralizedMooneyRivlinSolution:
@@ -216,7 +242,14 @@ class TestGeneralizedMooneyRivlinSolution:
         # times = np.random.random(20) * sol.time_period
         times = np.linspace(0.0, 1.0, 21) * sol.time_period
         for t in times:
-            assert_allclose(np.hstack((vsg(t), vfg(t))), ref_v(t), rtol=1e-5, atol=1e-2)
+            try:
+                assert_allclose(
+                    np.hstack((vsg(t), vfg(t))), ref_v(t), rtol=1e-5, atol=1e-2
+                )
+            except AssertionError:
+                print("Time of mismatch :", t)
+                print(params)
+                raise
 
     def test_against_neo_hookean_material(self, grid, params):
         sg, fg, _ = grid(params["L_s"], params["L_f"])
@@ -243,8 +276,13 @@ class TestGeneralizedMooneyRivlinSolution:
         # times = np.random.random(20) * sol.time_period
         times = np.linspace(0.0, 1.0, 21) * sol.time_period
         for t in times:
-            assert_allclose(vsg(t), ref_vsg(t), rtol=1e-4, atol=1e-2)
-            assert_allclose(vfg(t), ref_vfg(t), rtol=1e-4, atol=1e-2)
+            try:
+                assert_allclose(vsg(t), ref_vsg(t), rtol=1e-4, atol=1e-2)
+                assert_allclose(vfg(t), ref_vfg(t), rtol=1e-4, atol=1e-2)
+            except AssertionError:
+                print("Time of mismatch :", t)
+                print(params)
+                raise
 
     def test_data_serialization(self, params):
         params["n_modes"] = 16
