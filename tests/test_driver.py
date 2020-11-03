@@ -5,15 +5,15 @@ __doc__ = """Test driving interface"""
 import pytest
 import numpy as np
 import tempfile
-
-from typing import Dict
-
-# our
-from parallel_slab.solutions import GeneralizedMooneyRivlinSolution, NeoHookeanSolution
-from parallel_slab.driver import _internal_load, run
+import os
 
 # Simple contextual Timer
 from timeit import default_timer
+from matplotlib import pyplot as plt
+
+# our
+from parallel_slab.solutions import GeneralizedMooneyRivlinSolution, NeoHookeanSolution
+from parallel_slab.driver import _internal_load, run, plot_solution
 
 
 class Timer(object):
@@ -30,7 +30,7 @@ class Timer(object):
         return self.end - self.start
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="module")
 def params():
     params = {
         "L_s": 0.2,
@@ -111,8 +111,6 @@ class TestRun:
             assert self.t() < 0.01
 
     def test_GeneralizedMooneyRivlinSolution_run_on_new_path(self, params):
-        import os
-
         # Ensure it takes some time
         with tempfile.TemporaryDirectory() as dirpath:
             sol = GeneralizedMooneyRivlinSolution(params)
@@ -123,3 +121,138 @@ class TestRun:
             assert self.t() > 1.0
             # Ensure it has saved some data as a pickle file
             os.path.isfile(sol.get_file_id(dirpath))
+
+
+# class Param:
+#     def __init__(self, cp, d):
+#         self.cls_param = cp
+#         self.dir = d
+
+
+class TestPlot:
+    cls_params = [NeoHookeanSolution, GeneralizedMooneyRivlinSolution]
+
+    # dirs = [tempfile.mkdtemp() for _ in cls_params]
+    # A consistent setup tardown seems difficult here, so we run the simulations many times
+
+    # @pytest.fixture(scope="class", params=[Param(x, y) for x, y in zip(cls_params, dirs)])
+    @pytest.fixture(scope="class", params=cls_params)
+    def solution_gen(self, params, request):
+        sol = request.param(params)
+        return lambda td: run(sol, 2.0 * sol.time_period, td)
+        # return run(sol, 2.0 * sol.time_period, request.param.dir), request.param.dir
+
+    # def run_solution(solution):
+    #     return solution(td)
+
+    def test_default_plot(self, solution_gen):
+        with tempfile.TemporaryDirectory() as td:
+            solution = solution_gen(td)
+
+            n_samples = 5
+            # Ensure it takes no-little time
+            plot_times = (
+                np.linspace(0.0, 1.0, n_samples, endpoint=False) * solution.time_period
+            )
+            plot_solution(solution, plot_times, td)
+
+            # Check for velocities.pdf file in td
+            assert os.path.isfile(os.path.join(td, "velocities.pdf"))
+
+            # Check for n_samples csv file in td
+            n_outputs = [x for x in os.listdir(td) if x.endswith(".csv")]
+
+            assert len(n_outputs) == n_samples
+
+    def test_default_plot_does_not_bug_out_for_empty_samples(self, solution_gen):
+        # solution, td = solution_gen
+        with tempfile.TemporaryDirectory() as td:
+            solution = solution_gen(td)
+
+            # Ensure it takes no-little time
+            plot_solution(solution, [], td)
+
+            # Check for velocities.pdf file in td
+            assert os.path.isfile(os.path.join(td, "velocities.pdf"))
+
+            # Check for n_samples csv file in td
+            n_outputs = [x for x in os.listdir(td) if x.endswith(".csv")]
+
+            assert len(n_outputs) == 0
+
+    def test_default_plot_when_solution_is_not_ready(self, solution_gen):
+        # solution, td = solution_gen
+        with tempfile.TemporaryDirectory() as td:
+            solution = solution_gen(td)
+
+            n_samples = 5
+            # Ensure it takes no-little time
+            solution._data_loaded = False
+            plot_times = (
+                np.linspace(0.0, 1.0, n_samples, endpoint=False) * solution.time_period
+            )
+            plot_solution(solution, plot_times, td)
+
+            # Check for velocities.pdf file in td
+            assert os.path.isfile(os.path.join(td, "velocities.pdf"))
+
+            # Check for n_samples csv file in td
+            n_outputs = [x for x in os.listdir(td) if x.endswith(".csv")]
+
+            assert len(n_outputs) == n_samples
+
+    @pytest.mark.mpl_image_compare
+    @pytest.mark.parametrize("cls", cls_params)
+    def test_plot_output(self, cls):
+        params = {
+            "L_s": 0.2,
+            "n_modes": 16,
+            "L_f": 0.2,
+            "rho_f": 1.0,
+            "mu_f": 0.02,
+            "rho_s": 1.0,
+            "mu_s": 0.002,
+            "c_1": 0.02,
+            "c_3": 0.04,
+            "V_wall": 0.4,
+            "omega": np.pi,
+        }
+        with tempfile.TemporaryDirectory() as td:
+            solution = cls(params=params)
+
+            run(solution, 10.0 * solution.time_period, td)
+
+            n_samples = 21
+            # Ensure it takes no-little time
+            plot_times = (
+                np.linspace(0.0, 1.0, n_samples, endpoint=False) * solution.time_period
+            )
+
+            solution, fig = plot_solution(solution, plot_times, td)
+
+        return fig
+
+    def test_animated_plot(self, solution_gen):
+        with tempfile.TemporaryDirectory() as td:
+            solution = solution_gen(td)
+
+            n_samples = 21
+            # Ensure it takes no-little time
+            plot_times = (
+                np.linspace(0.0, 1.0, n_samples, endpoint=False) * solution.time_period
+            )
+            plot_solution(solution, plot_times, td, animate_flag=True)
+
+            # Check for velocities.pdf file in td
+            assert os.path.isfile(os.path.join(td, "movie.mp4"))
+
+    def test_animated_plot_does_not_bug_out_for_empty_samples(self, solution_gen):
+        # solution, td = solution_gen
+        with tempfile.TemporaryDirectory() as td:
+            solution = solution_gen(td)
+
+            # Ensure it takes no-little time
+            plot_solution(solution, [], td, animate_flag=True)
+
+            # Check for velocities.pdf file in td
+            assert os.path.isfile(os.path.join(td, "movie.mp4"))

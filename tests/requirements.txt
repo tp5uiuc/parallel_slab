@@ -3,3 +3,4 @@ pytest-cov
 flake8
 codecov
 black
+pytest-mpl # for image comparison
