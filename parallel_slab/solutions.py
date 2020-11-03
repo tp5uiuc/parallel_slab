@@ -184,7 +184,8 @@ class NeoHookeanSolution(SolutionBase):
 
             warn(
                 "Intended solution is for a Neo-Hookean solid, but we found parameters corresponding to"
-                "a generalized Mooney Rivlin solid!"
+                "a generalized Mooney Rivlin solid!",
+                UserWarning,
             )
 
         k = self.k
