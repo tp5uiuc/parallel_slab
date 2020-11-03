@@ -6,14 +6,14 @@ notifications:
 jobs:
   include:
     # LINUX MACHINE #
+    - name: " Python 3.5 Linux "
+      python: 3.5
     - name: " Python 3.6 Linux "
       python: 3.6
     - name: " Python 3.7 Linux "
       python: 3.7
     - name: " Python 3.8 Linux "
       python: 3.8
-    - name: " Python 3.9 Linux "
-      python: 3.9
     # macOSx MACHINE #
     - name: " Python 3.6.5 macOSx 10.13"
       os: osx
@@ -38,6 +38,4 @@ script:
   - if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then black --version && black --check parallel_slab tests; flake8 --version && flake8 parallel_slab tests; fi
 
 after_success:
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "3.6" ]]; then
-    codecov;
-    fi
+  - codecov

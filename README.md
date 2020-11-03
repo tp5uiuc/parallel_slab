@@ -1,9 +1,9 @@
-Shearing Parallel Slabs Benchmark
+Parallel Slab Benchmark
 &middot;
 [![Build Status](https://travis-ci.com/tp5uiuc/parallel_slab.svg?token=ZZkcxuTHm9peGgncAAKa&branch=master)](https://travis-ci.com/tp5uiuc/parallel_slab)
 [![codecov](https://codecov.io/gh/tp5uiuc/parallel_slab/branch/master/graph/badge.svg?token=QWZOGBPC83)](https://codecov.io/gh/tp5uiuc/parallel_slab)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://mit-license.org/)
-[![pyversion](https://img.shields.io/pypi/pyversions/Django)](https://www.python.org/)
+[![pyversion](https://img.shields.io/badge/python-3.5%20|%203.6%20|%203.7%20|%203.8-blue.svg)](https://www.python.org/)
 =====
 
 Shear flow benchmark for testing elastic solid--fluid coupling algorithms
