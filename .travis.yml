@@ -28,9 +28,9 @@ jobs:
 before_install:
   - python3 --version
   - pip3 install --upgrade pip
-  - pip3 install --user -r requirements.txt
-  - pip3 install --user -r tests/requirements.txt
-  - pip3 install --user -r optional-requirements.txt
+  - pip3 install -r requirements.txt
+  - if [[ $TRAVIS_OS_NAME == 'linux' ]]; then pip3 install -r tests/requirements.txt; else pip3 install --user -r tests/requirements.txt; fi
+  - pip3 install -r optional-requirements.txt
 
 # command to run tests
 script:
