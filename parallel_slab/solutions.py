@@ -242,7 +242,7 @@ class NeoHookeanSolution(SolutionBase):
         )
 
         # finally indicate always ready
-        self.data_loaded = True
+        self._data_loaded = True
 
     def save_data(self, file_path: str) -> None:
         """
@@ -272,7 +272,7 @@ class NeoHookeanSolution(SolutionBase):
 
         """
         # There's nothing to load in this case
-        self.data_loaded = True
+        self._data_loaded = True
 
     def run_till(self, final_time: float) -> None:
         # There's nothing to run in this case
@@ -428,7 +428,7 @@ class GeneralizedMooneyRivlinSolution(SolutionBase):
         fluid_velocity_k_gen = interp1d(ndtime, v_fluid)
         self.fluid_velocity_k = lambda time_v: fluid_velocity_k_gen(time2nd(time_v))
 
-        self.data_loaded = True
+        self._data_loaded = True
 
     def run_till(self, final_time: float) -> None:
         # There's nothing to run
