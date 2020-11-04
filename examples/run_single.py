@@ -1,6 +1,5 @@
 from parallel_slab import NeoHookeanSolution, GeneralizedMooneyRivlinSolution
 from parallel_slab import run_and_plot_from_yaml
-import os
 import numpy as np
 
 if __name__ == "__main__":
