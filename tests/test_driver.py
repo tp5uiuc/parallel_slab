@@ -6,10 +6,10 @@ import pytest
 import numpy as np
 import tempfile
 import os
+import sys
 
 # Simple contextual Timer
 from timeit import default_timer
-from matplotlib import pyplot as plt
 
 # our
 from parallel_slab.solutions import GeneralizedMooneyRivlinSolution, NeoHookeanSolution
@@ -232,6 +232,9 @@ class TestPlot:
 
         return fig
 
+    @pytest.mark.xfail(
+        sys.platform in ["darwin", "linux"], reason="no ffmpeg in travis CI"
+    )
     def test_animated_plot(self, solution_gen):
         with tempfile.TemporaryDirectory() as td:
             solution = solution_gen(td)
@@ -246,6 +249,9 @@ class TestPlot:
             # Check for velocities.pdf file in td
             assert os.path.isfile(os.path.join(td, "movie.mp4"))
 
+    @pytest.mark.xfail(
+        sys.platform in ["darwin", "linux"], reason="no ffmpeg in travis CI"
+    )
     def test_animated_plot_does_not_bug_out_for_empty_samples(self, solution_gen):
         # solution, td = solution_gen
         with tempfile.TemporaryDirectory() as td:
