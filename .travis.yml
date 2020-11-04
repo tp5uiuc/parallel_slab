@@ -39,3 +39,4 @@ script:
 
 after_success:
   - codecov
+  - pip3 install --user . # Try installing the package
