@@ -154,7 +154,7 @@ def plot_solution(
         anim = animation.FuncAnimation(
             fig,
             animate,
-            frames=plot_times if plot_times else [0],
+            frames=plot_times if plot_times else [0.0, 1.0],
             blit=True,
             repeat=True,
         )
