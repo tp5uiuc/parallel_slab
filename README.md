@@ -9,7 +9,8 @@ Parallel Slab Benchmark
 Shear flow benchmark for testing elastic solid--fluid coupling algorithms
 
 ## Installation
-Please clone this repository and use one of the [examples](examples) for running a single simulation or 
+Please clone this repository and execute `pip3 install .` in the repository directory. You can then use one of the
+ [examples](examples) for running a single simulation or 
 a parameter sweep of simulations. For more information see [Usage and examples](#usage-and-examples)
 
 ## Physical setup
@@ -26,10 +27,30 @@ Overall, this problem entails multiple interfaces, phases and boundary condition
  a challenging benchmark to validate the long time behaviour, stability and accuracy of FSI solvers.
 
 ## Usage and examples
-TODO
+The simplest example runs a [single simulation](examples/run_single.py). This reads parameters of the simulation from 
+a user-defined YAML file (see [params.yaml](examples/params.yaml)). Two set of solid materials are available for use. 
+The following code should suffice to see some output:
+```python
+from parallel_slab import NeoHookeanSolution, GeneralizedMooneyRivlinSolution
+from parallel_slab import run_and_plot_from_yaml
 
+run_and_plot_from_yaml(
+    NeoHookeanSolution,  # the type of solid material
+    final_time=20.0   # final time of simulation, till periodic steady state
+) 
+
+run_and_plot_from_yaml(
+    GeneralizedMooneyRivlinSolution,  # the type of solid material
+    final_time=20.0   # final time of simulation, till periodic steady state
+) 
+```
+More examples including the one above are given in the example file. Running the script above should produce these two
+image files (along with other data artefacts, which are under the user's control).
+
+#### neo-Hookean solid
 ![linear](./docs/assets/panel_linear_velocities.png)
 
+#### generalized Mooney--Rivlin solid
 ![nonlinear](./docs/assets/panel_nonlinear_velocities.png)
 
 ## Numerical algorithms
