@@ -37,6 +37,48 @@ class StokesCouetteSolution:
         self.omega = omega
         self.T = 2.0 * np.pi / omega
         self.V_wall = V_wall
+        # finally indicate always ready
+        self._data_loaded = True
+
+    def save_data(self, file_path: str) -> None:
+        """
+        Saves data for post-processing
+
+        Parameters
+        ----------
+        file_path : Path (Folder) to save custom data in
+
+        Returns
+        -------
+
+        """
+        # There's nothing to save in this case
+        pass
+
+    def load_data(self, file_path: str) -> None:
+        """
+        Loads data from disk to render
+
+        Parameters
+        ----------
+        file_path : Path (Folder) to load custom data from
+
+        Returns
+        -------
+
+        """
+        # There's nothing to load in this case
+        self._data_loaded = True
+
+    def run_till(self, final_time: float) -> None:
+        # There's nothing to run in this case
+        pass
+
+    def __repr__(self):
+        return "StokesCouetteSolution"
+
+    def ready(self):
+        return self._data_loaded
 
     @classmethod
     def from_params(cls, params: Dict[str, float]):
