@@ -10,14 +10,15 @@ if __name__ == "__main__":
         NeoHookeanSolution,  # the type of solid material
         final_time=20.0,  # final time of simulation, till periodic steady state
         plot_times=np.linspace(
-            10.0, 12.0, 20
+            10.0, 12.0, 21, endpoint=False
         ),  # time at which you want to plot the solutions
         param_file_name="params.yaml",  # name of the parameters YAML file
         rel_file_path="data",  # folder to store simulation artefacts
-        write_flag=False,  # write data files (as csv) and images (as pdf) at plot_times
-        animate_flag=True,
+        write_flag=True,  # write data files (as csv) and images (as pdf) at plot_times
+        animate_flag=False,
     )  # animate a movie sampled at plot_time and dump it as mp4
 
+    """
     ###############################################
     ## 2. Load from YAML, default parameters
     ###############################################
@@ -45,4 +46,5 @@ if __name__ == "__main__":
         NeoHookeanSolution,  # the type of solid material
         final_time=20.0,  # final time of simulation, till periodic steady state
         grid_generator=grid_generator,
-    )
+        )
+    """
