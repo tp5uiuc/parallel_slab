@@ -1,4 +1,4 @@
 calc/
 calc.simulate/
 data/
-test.py
+test_stokes_couette.py
