@@ -100,10 +100,18 @@ def dict_hash(dictionary: Dict[str, Any]) -> str:
     """MD5 hash of a dictionary."""
     import hashlib
     import json
+    from pandas import Timestamp
 
     dhash = hashlib.md5()
     # We need to sort arguments so {'a': 1, 'b': 2} is
     # the same as {'b': 2, 'a': 1}
-    encoded = json.dumps(dictionary, sort_keys=True).encode()
+
+    # convert unknown objects to strings first
+    # used in psweep
+    def myconverter(o):
+        if isinstance(o, Timestamp):
+            return o.__str__()
+
+    encoded = json.dumps(dictionary, sort_keys=True, default=myconverter).encode()
     dhash.update(encoded)
     return dhash.hexdigest()
