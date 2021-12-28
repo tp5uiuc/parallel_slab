@@ -2,3 +2,6 @@ calc/
 calc.simulate/
 data/
 test_stokes_couette.py
+local_run_parameter_sweep.py
+calc_NeoHookeanSolution
+calc_GeneralizedMooneyRivlinSolution
