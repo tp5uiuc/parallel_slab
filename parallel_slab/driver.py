@@ -23,7 +23,7 @@ from matplotlib import pyplot as plt
 def _get_stylized_plot():
     import matplotlib
 
-    matplotlib.use("MacOSX")
+    # matplotlib.use("MacOSX")
 
     fig = plt.figure(figsize=(4, 3), dpi=300, tight_layout=True)
     ax = fig.add_subplot()
