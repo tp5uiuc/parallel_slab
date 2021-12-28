@@ -2,8 +2,8 @@
 # Thanks and credits to https://github.com/navdeep-G/setup.py for setup.py format
 import io
 import os
-import sys
 import re
+import sys
 from shutil import rmtree
 
 from setuptools import Command, find_packages, setup
@@ -11,13 +11,13 @@ from setuptools import Command, find_packages, setup
 # Package meta-data.
 NAME = "parallel_slab"
 DESCRIPTION = (
-    "Shear flow benchmark for testing elastic solid--fluid coupling algorithms"
+    "Benchmark analytical solutions for testing elastic solid--fluid coupling algorithms"
 )
-URL = "https://github.com/mattialabteam/elastica-python"
+URL = "https://github.com/tp5uiuc/parallel_slab"
 EMAIL = "tp5@illinois.edu"
 AUTHOR = "Tejaswin Parthsarathy, MattiaLab"
 REQUIRES_PYTHON = ">=3.5.0"
-VERSION = ""
+VERSION = "1.0.0"
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -98,7 +98,7 @@ setup(
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
     url=URL,
-    packages=["elastica, examples"],
+    packages=["parallel_slab"],
     package_dir={"parallel_slab": "./parallel_slab"},
     license="MIT",
     classifiers=[
@@ -114,7 +114,7 @@ setup(
         "Intended Audience :: Science/Research",
         "Intended Audience :: Education",
     ],
-    download_url="https://github.com/mattialab/elastica-python/archive/master.zip",
+    download_url="https://github.com/tp5uiuc/parallel_slab/archive/master.zip",
     install_requires=REQUIRED,
     extras_require=EXTRAS,
 )
