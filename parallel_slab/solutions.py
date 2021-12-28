@@ -2,10 +2,12 @@
 
 __doc__ = """Solution for neo-Hookean solids"""
 
+import os
+from typing import Any, Callable, Dict, List, Tuple, TypeVar
+
 import numpy as np
 from scipy.interpolate import interp1d
-import os
-from typing import Dict, TypeVar, Callable, Tuple, List, Any
+
 from .utils import dict_hash
 
 SolutionGenerator = Callable[[float], np.ndarray]
@@ -368,7 +370,7 @@ class GeneralizedMooneyRivlinSolution(SolutionBase):
         assert_allclose(self.k, self.recorded_data["modes"]["modes"])
 
         # Unpack to specific members for ease of use
-        self.time_history = self.recorded_data["history"]["time"]
+        self.time_history = np.array(self.recorded_data["history"]["time"])
         self.interface_displacement_history = self.recorded_data["history"][
             "interface_displacement"
         ]

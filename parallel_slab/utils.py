@@ -2,8 +2,9 @@
 
 __doc__ = """Common Utilities"""
 
+from typing import Any, Dict
+
 import numpy as np
-from typing import Dict, Any
 
 
 def generate_grid_like_pycfs(
@@ -100,6 +101,7 @@ def dict_hash(dictionary: Dict[str, Any]) -> str:
     """MD5 hash of a dictionary."""
     import hashlib
     import json
+
     from pandas import Timestamp
 
     dhash = hashlib.md5()
