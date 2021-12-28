@@ -2,25 +2,30 @@
 
 __doc__ = """Main interface for accessing solutions"""
 
-from .utils import generate_regular_grid
-from .solutions import (
-    ProblemSolution,
-    NeoHookeanSolution,
-    GeneralizedMooneyRivlinSolution,
-)
+import os
+from typing import Callable, Dict, List, Tuple, Type
 
 import numpy as np
-from typing import List, Dict, Type, Callable, Tuple, Union
-import os
-from matplotlib import pyplot as plt
+
+from ._driver import FilePath, Grids, run
+from .solutions import (
+    GeneralizedMooneyRivlinSolution,
+    NeoHookeanSolution,
+    ProblemSolution,
+)
+from .utils import generate_regular_grid
+
 from functools import partial
 
-Grids = Tuple[np.ndarray, np.ndarray]
-FilePath = Union[str, bytes, os.PathLike]
+from matplotlib import pyplot as plt
 
 
 def _get_stylized_plot():
-    fig = plt.figure(figsize=(7, 6), dpi=300, tight_layout=True)
+    import matplotlib
+
+    matplotlib.use("MacOSX")
+
+    fig = plt.figure(figsize=(4, 3), dpi=300, tight_layout=True)
     ax = fig.add_subplot()
     ax.set_aspect("auto")
     ax.set_xlim([-1.0, 1.0])
@@ -44,7 +49,7 @@ def _get_stylized_plot():
 
 
 def _internal_load(param_file_name: FilePath) -> Dict[str, float]:
-    from yaml import safe_load, YAMLError
+    from yaml import YAMLError, safe_load
 
     try:
         with open(param_file_name) as f:
@@ -55,20 +60,6 @@ def _internal_load(param_file_name: FilePath) -> Dict[str, float]:
     except IOError:
         raise
     return params
-
-
-def run(
-    solution: ProblemSolution, final_time: float, file_path: FilePath
-) -> ProblemSolution:
-    if isinstance(solution, GeneralizedMooneyRivlinSolution):
-        if not os.path.exists(solution.get_file_id(file_path)):
-            # Run solution till terminal time
-            solution.run_till(final_time)
-
-            # Save data, useful for nonlinear solutions
-            solution.save_data(file_path)
-
-    return solution
 
 
 def run_from_yaml(
@@ -102,7 +93,7 @@ def plot_solution(
     animate_flag: bool = False,
     write_flag: bool = True,
     grid_generator: Callable[[float, float], Grids] = partial(
-        generate_regular_grid, 512
+        generate_regular_grid, 128
     ),
 ) -> Tuple[ProblemSolution, plt.Figure]:
     from matplotlib import cm
@@ -199,7 +190,8 @@ def plot_solution(
                         file_path,
                         "{0}_velocity_at_{1:e}.csv".format(str(solution), non_dim_t),
                     ),
-                    np.c_[total_y, total_v],
+                    # save it such that y axis is y
+                    np.c_[total_v, total_y],
                     delimiter=",",
                 )
 
@@ -244,7 +236,7 @@ def run_and_plot(
     animate_flag: bool = False,
     write_flag: bool = True,
     grid_generator: Callable[[float, float], Grids] = partial(
-        generate_regular_grid, 512
+        generate_regular_grid, 128
     ),
 ) -> ProblemSolution:
     # file_path = os.path.join(os.getcwd(), rel_file_path)
@@ -252,7 +244,7 @@ def run_and_plot(
     solution = run(solution, final_time, file_path)
 
     if plot_times is None:
-        plot_times = np.linspace(0.0, 1.0, 21) * solution.time_period
+        plot_times = np.linspace(0.0, 1.0, 20, endpoint=False) * solution.time_period
 
     solution = plot_solution(
         solution, plot_times, file_path, animate_flag, write_flag, grid_generator
