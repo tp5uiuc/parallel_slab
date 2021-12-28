@@ -2,18 +2,20 @@
 
 __doc__ = """Test driving interface"""
 
-import pytest
-import numpy as np
-import tempfile
 import os
 import sys
+import tempfile
 
 # Simple contextual Timer
 from timeit import default_timer
 
+import numpy as np
+import pytest
+
+from parallel_slab.driver import _internal_load, plot_solution, run
+
 # our
 from parallel_slab.solutions import GeneralizedMooneyRivlinSolution, NeoHookeanSolution
-from parallel_slab.driver import _internal_load, run, plot_solution
 
 
 class Timer(object):

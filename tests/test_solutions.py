@@ -2,20 +2,19 @@
 
 __doc__ = """Test solution classes"""
 
-import pytest
-import numpy as np
-from numpy.testing import assert_allclose
-
 from typing import Dict
+
+import numpy as np
+import pytest
+from numpy.testing import assert_allclose
 
 # our
 from parallel_slab.solutions import (
-    NeoHookeanSolution,
     GeneralizedMooneyRivlinSolution,
-    SolutionGenerator,
+    NeoHookeanSolution,
     ProblemSolution,
+    SolutionGenerator,
 )
-
 
 # Neo
 # 1. check for smoothness

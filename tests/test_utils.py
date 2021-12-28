@@ -2,15 +2,15 @@
 
 __doc__ = """Test utility scripts"""
 
-import pytest
 import numpy as np
+import pytest
 from numpy.testing import assert_allclose
 
 # our
 from parallel_slab.utils import (
+    dict_hash,
     generate_grid_like_pycfs,
     generate_regular_grid,
-    dict_hash,
 )
 
 
