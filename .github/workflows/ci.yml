@@ -70,7 +70,13 @@ jobs:
       run: |
         if [[ "${{ matrix.python-version }}" == "3.6" ]]; then 
           python3 -m pytest --cov=elastica --cov-report=xml
-          # codecov
         else
           python3 -m pytest
         fi
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
+      if: ${{ matrix.python-version == '3.6' }}
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+        verbose: true # optional (default = false)
