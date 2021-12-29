@@ -6,3 +6,7 @@ local_run_parameter_sweep.py
 calc_NeoHookeanSolution
 calc_GeneralizedMooneyRivlinSolution
 maplots
+data_to_plot2.py
+ex_stokes_couette.py
+multiphase_stokes_couette.py
+plot_data.ipynb
