@@ -1,8 +1,13 @@
-from parallel_slab import NeoHookeanSolution, GeneralizedMooneyRivlinSolution
-from parallel_slab import run_and_plot
+import os
+
 import numpy as np
 import psweep as ps
-import os
+
+from parallel_slab import (
+    GeneralizedMooneyRivlinSolution,
+    NeoHookeanSolution,
+    run_and_plot,
+)
 
 
 def evaluate(pset):
