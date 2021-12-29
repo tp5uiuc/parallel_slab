@@ -1,9 +1,9 @@
 Parallel Slab Benchmark
 &middot;
-[![Build Status](https://travis-ci.com/tp5uiuc/parallel_slab.svg?token=ZZkcxuTHm9peGgncAAKa&branch=master)](https://travis-ci.com/tp5uiuc/parallel_slab)
+[![CI](https://github.com/tp5uiuc/parallel_slab/actions/workflows/ci.yml/badge.svg)](https://github.com/tp5uiuc/parallel_slab/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/tp5uiuc/parallel_slab/branch/master/graph/badge.svg?token=QWZOGBPC83)](https://codecov.io/gh/tp5uiuc/parallel_slab)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://mit-license.org/)
-[![pyversion](https://img.shields.io/badge/python-3.5%20|%203.6%20|%203.7%20|%203.8-blue.svg)](https://www.python.org/)
+[![pyversion](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9-blue.svg)](https://www.python.org/)
 =====
 
 Shear flow benchmark for testing elastic solid--fluid coupling algorithms
@@ -65,7 +65,9 @@ TODO : CITE OUR PAPER HERE
 Check [Installation](#installation) to see how to install the package. Once that is done, install the test requirements
 using 
 `pip3 install -r tests/requirements.txt` 
-from the repo directory. This package uses `py.test` for running unit and integration tests. 
+from the repo directory and
+`pip3 install -r optional-requirements.txt`
+for the optional (but needed for testing) packages. This package uses `py.test` for running unit and integration tests.
 To run them, simply do 
 `python3 -m pytest` 
 from the repository directory.
