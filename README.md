@@ -6,11 +6,20 @@ Parallel Slab Benchmark
 [![pyversion](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9-blue.svg)](https://www.python.org/)
 =====
 
-Shear flow benchmark for testing elastic solid--fluid coupling algorithms
+An elasto-hydrodynamic benchmark to test coupled FSI algorithms that involves slabs of fluid and elastic solid.
+
+> :rocket: Before installing the package, check out an interactive, online version [at this link](https://gazzolalab.github.io/parallel_slab_sandbox/).
 
 ## Installation
-Please clone this repository and execute `pip3 install .` in the repository directory. You can then use one of the
- [examples](examples) for running a single simulation or 
+For a system wide install, use
+```sh
+python3 -m pip install parallel-slab
+```
+For a local install, please clone this repository and execute the following in the repository directory.
+```sh
+python3 -m pip install --user .
+```
+You can then use one of the [examples](examples) for running a single simulation or
 a parameter sweep of simulations. For more information see [Usage and examples](#usage-and-examples)
 
 ## Physical setup
@@ -64,10 +73,10 @@ TODO : CITE OUR PAPER HERE
 ## Running tests
 Check [Installation](#installation) to see how to install the package. Once that is done, install the test requirements
 using 
-`pip3 install -r tests/requirements.txt` 
+`python3 -m pip install -r tests/requirements.txt`
 from the repo directory and
-`pip3 install -r optional-requirements.txt`
+`python3 -m pip install -r optional-requirements.txt`
 for the optional (but needed for testing) packages. This package uses `py.test` for running unit and integration tests.
 To run them, simply do 
-`python3 -m pytest` 
+`python3 -m pip -m pytest`
 from the repository directory.
