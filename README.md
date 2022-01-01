@@ -22,6 +22,13 @@ python3 -m pip install --user .
 You can then use one of the [examples](examples) for running a single simulation or
 a parameter sweep of simulations. For more information see [Usage and examples](#usage-and-examples)
 
+### Extras
+If you want to take full advantage of the package (such as running a phase-space of cases in parallel),
+please execute
+```sh
+python3 -m pip install parallel-slab[extras]
+```
+
 ## Physical setup
 The two-dimensional setup employs an elastic solid layer sandwiched between two fluid layers, in turn confined by two long planar walls,
 whose horizontal oscillations drive a characteristic system response. This is shown in the figure below. The fluid is
