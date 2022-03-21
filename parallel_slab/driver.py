@@ -180,7 +180,7 @@ def plot_solution(
                 total_v,
                 total_y,
                 color=c,
-                linewidth=3,
+                linewidth=0.5,
             )
 
             if write_flag:
