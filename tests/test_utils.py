@@ -16,7 +16,7 @@ from parallel_slab.utils import (
 
 class TestGrids:
     @pytest.mark.parametrize("gen", [generate_regular_grid, generate_grid_like_pycfs])
-    @pytest.mark.parametrize("npoints", [2 ** i for i in range(7, 11)])
+    @pytest.mark.parametrize("npoints", [2**i for i in range(7, 11)])
     def test_range_of_grid(self, gen, npoints):
         total_length = 0.5
         l_half_solid = total_length * np.random.random()
@@ -38,7 +38,7 @@ class TestGrids:
         test_grid(sg, l_half_solid)
         test_grid(fg, l_half_fluid)
 
-    @pytest.mark.parametrize("npoints", [2 ** i for i in range(7, 11)])
+    @pytest.mark.parametrize("npoints", [2**i for i in range(7, 11)])
     def test_one_away(self, npoints):
         total_length = 0.5
         l_half_solid = total_length * np.random.random()

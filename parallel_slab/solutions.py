@@ -655,7 +655,7 @@ class GeneralizedMooneyRivlinSolution(SolutionBase):
             )
             solid_displacement[NEXT] += 2.0 * solid_displacement[CURR]
             solid_displacement[NEXT] += -(2.0 - zeta_solid_k) * solid_displacement[OLD]
-            solid_displacement[NEXT] += -(delta_t ** 2) * (
+            solid_displacement[NEXT] += -(delta_t**2) * (
                 2.0
                 * self.c_1
                 * (np.pi * self.k / self.L_s) ** 2

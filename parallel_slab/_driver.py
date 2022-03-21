@@ -143,8 +143,7 @@ class SandboxInterface:
 
         def to_hex(rgba):
             r, g, b, _ = rgba
-            f = lambda x: int(255 * x)
-            return "#%02x%02x%02x" % (f(r), f(g), f(b))
+            return "#%02x%02x%02x" % tuple(map(lambda x: int(255 * x), (r, g, b)))
 
         def to_js_color(sample):
             # print(col_idx(float(sample) / n_samples))

@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "parallel_slab"
+version = "1.0.0"
+description = "Benchmark analytical solutions for testing elastic solid--fluid coupling algorithms"
+authors = ["Tejaswin Parthasarathy <tp5@illinois.edu>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/tp5uiuc/parallel_slab"
+repository = "https://github.com/tp5uiuc/parallel_slab"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+
+[tool.poetry.dependencies]
+python = "~3.8, <= 3.11"
+numpy = "^1.22.3"
+matplotlib = "^3.5.1"
+scipy = "^1.8.0"
+tqdm = "^4.63.0"
+pandas = "^1.4.1"
+PyYAML = "^6.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.1"
+pytest-cov = "^3.0.0"
+black = "^22.1.0"
+flake8 = "^4.0.1"
+pytest-mpl = "^0.14.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

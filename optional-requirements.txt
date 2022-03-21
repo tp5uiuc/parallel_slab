@@ -1,2 +1,0 @@
-psweep>=0.4.0
-pyyaml>=5.0
