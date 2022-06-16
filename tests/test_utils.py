@@ -41,7 +41,7 @@ class TestGrids:
     @pytest.mark.parametrize("npoints", [2**i for i in range(7, 11)])
     def test_one_away(self, npoints):
         total_length = 0.5
-        l_half_solid = total_length * np.random.random()
+        l_half_solid = total_length * np.random.uniform(0.2, 0.8)
         # l_half_solid = total_length * 0.5
         l_half_fluid = total_length - l_half_solid
         sg, fg = generate_grid_like_pycfs(
