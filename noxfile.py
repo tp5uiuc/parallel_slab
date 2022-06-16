@@ -48,7 +48,12 @@ def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> Non
 @nox.session(python=["3.9", "3.10"])
 def tests(session: Session) -> None:
     """Run the test suite."""
-    args = session.posargs or ["--cov"]
+    # test_solutions are integrated tests which I don't want on the CI server
+    args = session.posargs or [
+        "--ignore=tests/test_solutions.py",
+        "--cov",
+        "--cov-report=xml",
+    ]
     session.run("poetry", "install", "--no-dev", external=True)
     install_with_constraints(
         session, "coverage[toml]", "pytest", "pytest-cov", "pytest-mpl"
