@@ -6,7 +6,7 @@ Parallel Slab Benchmark
 [![pyversion](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9-blue.svg)](https://www.python.org/)
 =====
 
-An elasto-hydrodynamic benchmark to test coupled FSI algorithms that involves slabs of fluid and elastic solid.
+An elasto-hydrodynamic benchmark to test coupled FSI algorithms that involves slabs of fluid and elastic solid. For details, refer to [our paper here](https://mattia-lab.com/wp-content/uploads/2022/08/tp_yb_mg_2022.pdf) or access it from [JFM](https://www.doi.org/10.1017/jfm.2022.542).
 
 > :rocket: Before installing the package, check out an interactive, online version [at this link](https://gazzolalab.github.io/parallel_slab_sandbox/).
 
@@ -73,9 +73,16 @@ image files (along with other data artefacts, which are under the user's control
 Details on the algorithms employed in the two examples shown above can be found in the following technical paper.
 If you are employing this benchmark, please cite the work below.
 
-<a id="1">[1]</a>
-TODO : CITE OUR PAPER HERE
-
+```tex
+@article{parthasarathy2022elastic,
+  title={Elastic solid dynamics in a coupled oscillatory Couette flow system},
+  author={Parthasarathy, Tejaswin and Bhosale, Yashraj and Gazzola, Mattia},
+  journal={Journal of Fluid Mechanics},
+  volume={946},
+  year={2022},
+  publisher={Cambridge University Press}
+}
+```
 
 ## Running tests
 First install the package with optional dependencies
